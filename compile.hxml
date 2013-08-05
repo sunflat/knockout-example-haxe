@@ -1,0 +1,6 @@
+-js web/todo.js
+-main todo.Main
+-cp src
+-dce full
+-debug
+-lib jQueryExtern knockout.hx
