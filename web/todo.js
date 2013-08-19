@@ -60,7 +60,10 @@ todo.ViewModel.prototype = {
 		if(elem.nodeType == 1) new $(elem).hide().slideDown();
 	}
 	,addTodo: function() {
-		if(this.canAddTodo()) this.model.addTodo(this.todoSummary(),false);
+		if(this.canAddTodo) {
+			this.model.addTodo(this.todoSummary(),false);
+			this.todoSummary("");
+		}
 	}
 }
 var $_, $fid = 0;

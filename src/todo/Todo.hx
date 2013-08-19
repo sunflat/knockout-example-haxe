@@ -9,13 +9,13 @@ class Todo {
 
     public function new(summary:String, done:Bool) {
         this.summary = summary;
-        this.done = Knockout.observable(done);
+        this.done = done;
     }
 
     public function toPlainObject():Dynamic {
         return {
         summary: summary,
-        done: done.get()
+        done: done.getValue()
         };
     }
 }
