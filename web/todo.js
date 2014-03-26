@@ -1,34 +1,35 @@
 (function () { "use strict";
-var todo = {}
-todo.Main = function() { }
+var todo = {};
+todo.Main = function() { };
 todo.Main.main = function() {
 	var storage = localStorage;
 	var model = new todo.Model(storage);
 	model.addTodo("learn knockout",true);
 	var viewModel = new todo.ViewModel(model);
 	ko.applyBindings(viewModel);
-}
+};
 todo.Model = function(storage) {
 	this.storage = storage;
 	this.todoList = ko.observableArray();
 };
 todo.Model.prototype = {
-	load: function() {
+	addTodo: function(summary,done) {
+		var x = new todo.Todo(summary,done);
+		this.todoList.push(x);
 	}
-	,save: function() {
+	,deleteTodo: function(todo) {
+		this.todoList.remove(todo);
 	}
 	,archive: function() {
 		this.todoList.remove(function(todo) {
 			return todo.done();
 		});
 	}
-	,deleteTodo: function(todo) {
-		this.todoList.remove(todo);
+	,save: function() {
 	}
-	,addTodo: function(summary,done) {
-		this.todoList.push(new todo.Todo(summary,done));
+	,load: function() {
 	}
-}
+};
 todo.Todo = function(summary,done) {
 	this.summary = summary;
 	this.done = ko.observable(done);
@@ -37,7 +38,7 @@ todo.Todo.prototype = {
 	toPlainObject: function() {
 		return { summary : this.summary, done : this.done()};
 	}
-}
+};
 todo.ViewModel = function(model) {
 	var _g = this;
 	this.model = model;
@@ -51,24 +52,24 @@ todo.ViewModel = function(model) {
 	this.archive = $bind(model,model.archive);
 };
 todo.ViewModel.prototype = {
-	hideTodo: function(elem) {
-		if(elem.nodeType == 1) new $(elem).slideUp(null,null,function() {
-			new $(elem).remove();
-		});
-	}
-	,showTodo: function(elem) {
-		if(elem.nodeType == 1) new $(elem).hide().slideDown();
-	}
-	,addTodo: function() {
-		if(this.canAddTodo) {
+	addTodo: function() {
+		if(this.canAddTodo()) {
 			this.model.addTodo(this.todoSummary(),false);
 			this.todoSummary("");
 		}
 	}
-}
+	,showTodo: function(elem) {
+		if(elem.nodeType == 1) new $(elem).hide().slideDown();
+	}
+	,hideTodo: function(elem) {
+		if(elem.nodeType == 1) new $(elem).slideUp(null,null,function() {
+			new $(elem).remove();
+		});
+	}
+};
 var $_, $fid = 0;
-function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; };
+function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 todo.Main.main();
 })();
 
-//@ sourceMappingURL=todo.js.map
+//# sourceMappingURL=todo.js.map

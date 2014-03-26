@@ -22,7 +22,7 @@ class ViewModel {
         this.todoList = model.todoList;
         this.todoSummary = Knockout.observable('');
         this.canAddTodo = Knockout.computed(function() {
-            return todoSummary.getValue().length > 0;
+            return todoSummary.get().length > 0;
         });
 
         this.deleteTodo = model.deleteTodo;
@@ -32,7 +32,7 @@ class ViewModel {
 
     public function addTodo():Void {
         if (canAddTodo) {
-            model.addTodo(todoSummary.getValue(), false);
+            model.addTodo(todoSummary.get(), false);
             todoSummary << "";
         }
     }

@@ -22,7 +22,7 @@ class Model {
 
     public function archive():Void {
         todoList.remove(function(todo:Todo) {
-            return todo.done.getValue();
+            return todo.done.get();
         });
     }
 
